@@ -1,0 +1,4 @@
+The Go Programming Language
+Package regexp
+go doc regexp/syntax
+or any book about automata theory

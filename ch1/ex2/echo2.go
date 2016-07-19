@@ -8,6 +8,6 @@ import (
 
 func main() {
 	for index, arg := range os.Args[1:] {
-		fmt.Println("index: %d, arg: %s", index, arg)
+		fmt.Printf("index: %d, arg: %s\n", index, arg)
 	}
 }

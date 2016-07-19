@@ -52,7 +52,6 @@ func fetch(url string, index int, ch chan<- string) {
 	ch <- fmt.Sprintf("%.2fs  %7d  %s", secs, nbytes, url)
 }
 
-
 /***
 go run fetchall.go http://www.yahoo.co.jp http://edition.cnn.com https://news.google.co.jp
 ***/

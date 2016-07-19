@@ -11,14 +11,13 @@ import (
 	"time"
 )
 
-var palette = []color.Color {color.RGBA{0,0,0,255}, 
-							color.RGBA{255,0,0,255}, 
-							color.RGBA{0,255,0,255}, 
-							color.RGBA{0,0,255,255}, 
-							color.RGBA{128,128,0,255},
-							color.RGBA{0,128,128,255},
-							color.RGBA{128,0,128,255}}
-
+var palette = []color.Color{color.RGBA{0, 0, 0, 255},
+	color.RGBA{255, 0, 0, 255},
+	color.RGBA{0, 255, 0, 255},
+	color.RGBA{0, 0, 255, 255},
+	color.RGBA{128, 128, 0, 255},
+	color.RGBA{0, 128, 128, 255},
+	color.RGBA{128, 0, 128, 255}}
 
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -27,11 +26,11 @@ func main() {
 
 func lissajous(out io.Writer) {
 	const (
-		cycles = 5
-		res = 0.001
-		size = 100
+		cycles  = 5
+		res     = 0.001
+		size    = 100
 		nframes = 64
-		delay = 8
+		delay   = 8
 	)
 	freq := rand.Float64() * 3.0
 	anim := gif.GIF{LoopCount: nframes}
@@ -39,7 +38,7 @@ func lissajous(out io.Writer) {
 	for i := 0; i < nframes; i++ {
 		rect := image.Rect(0, 0, 2*size+1, 2*size+1)
 		img := image.NewPaletted(rect, palette)
-		colorIndex := uint8(rand.Intn(len(palette)-1)+1)
+		colorIndex := uint8(rand.Intn(len(palette)-1) + 1)
 		for t := 0.0; t < cycles*2*math.Pi; t += res {
 			x := math.Sin(t)
 			y := math.Sin(t*freq + phase)

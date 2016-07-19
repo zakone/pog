@@ -7,12 +7,12 @@ import (
 	"strings"
 )
 
-var list = []string{ "aaa", "bbb", "ccc" }
+var list = []string{"aaa", "bbb", "ccc"}
 
 func appendOperator() string {
 	temp := ""
 	for _, str := range list {
-		temp += "," + str 
+		temp += "," + str
 	}
 	return temp
 }
@@ -26,7 +26,7 @@ func appendHardCoding() string {
 }
 
 func byteArray() string {
-	temp := make([]byte, 0)
+	var temp []byte
 	for _, str := range list {
 		temp = append(temp, str...)
 		temp = append(temp, ',')

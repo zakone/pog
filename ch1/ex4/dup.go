@@ -10,8 +10,8 @@ import (
 )
 
 func main() {
-	counts := make(map[string]int)
 	for _, filename := range os.Args[1:] {
+		counts := make(map[string]int)
 		f, err := os.Open(filename)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "dup2: %v \n", err)
@@ -30,7 +30,7 @@ func main() {
 	}
 }
 
-func countLines(f *os.File, count map[string]int) {
+func countLines(f *os.File, counts map[string]int) {
 	input := bufio.NewScanner(f)
 	for input.Scan() {
 		counts[input.Text()]++

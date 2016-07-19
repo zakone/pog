@@ -8,5 +8,5 @@ import (
 )
 
 func main() {
-	fmt.Println(strings.Join(os.Args[:], " "))
+	fmt.Printf(strings.Join(os.Args[:], " "))
 }

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	"image/gif"
@@ -10,9 +9,6 @@ import (
 	"math"
 	"math/rand"
 	"net/http"
-	"regexp"
-	"strconv"
-	"strings"
 	"time"
 )
 
@@ -34,20 +30,21 @@ func lissajous(out io.Writer, r *http.Request) {
 		color.RGBA{128, 0, 128, 255}}
 
 	const (
+		cycles  = 5
 		res     = 0.001
 		size    = 100
 		nframes = 64
 		delay   = 8
 	)
-	reg := regexp.MustCompile("/?cycles=[0-9]+$")
-	var cycles float64
-	if reg.MatchString(r.URL.String()) {
-		cycleStr := strings.Split(r.URL.String(), "=")
-		cycles, _ = strconv.ParseFloat(cycleStr[1], 64)
-	} else {
-		cycles = 5.0
-	}
-	fmt.Printf("cycles value is %f\n", cycles)
+	// reg := regexp.MustCompile(`^?cycles=[0-9]+$`)
+	// var cycles int
+	// if reg.MatchString(r.URL.Path) {
+	//  cycleStr := strings.Split(r.URL.Path, "=")
+	//  cycles, _ = strconv.Atoi(cycleStr[1])
+	// } else {
+	//  cycles = 5
+	// }
+	// fmt.Println("cycles value is %d", cycles)
 	freq := rand.Float64() * 3.0
 	anim := gif.GIF{LoopCount: nframes}
 	phase := 0.0

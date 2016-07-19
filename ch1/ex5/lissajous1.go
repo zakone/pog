@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-var palette = []color.Color{color.RGBA{0,0,0,255}, color.RGBA{0,255,0,255}}
+var palette = []color.Color{color.RGBA{0, 0, 0, 255}, color.RGBA{0, 255, 0, 255}}
 
 const (
 	blackIndex = 0
@@ -25,11 +25,11 @@ func main() {
 
 func lissajous(out io.Writer) {
 	const (
-		cycles = 5
-		res = 0.001
-		size = 100
+		cycles  = 5
+		res     = 0.001
+		size    = 100
 		nframes = 64
-		delay = 8
+		delay   = 8
 	)
 	freq := rand.Float64() * 3.0
 	anim := gif.GIF{LoopCount: nframes}
