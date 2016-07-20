@@ -11,13 +11,15 @@ import (
 
 func main() {
 
-	fetchAll(1)
-	fetchAll(2)
+	go func() {
+        close(done)
+    }()
 }
 
 func fetchAll(num int) {
 	start := time.Now()
 	ch := make(chan string)
+	done := make(chan struct{})
 	for _, url := range os.Args[1:] {
 		go fetch(url, ch)
 	}
@@ -37,7 +39,10 @@ func fetchAll(num int) {
 
 func fetch(url string, ch chan<- string) {
 	start := time.Now()
-	resp, err := http.Get(url)
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Cancel = done
+	//resp, err := http.Get(url)
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		ch <- fmt.Sprint(err)
 		return
