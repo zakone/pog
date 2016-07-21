@@ -10,53 +10,55 @@ import (
 )
 
 func main() {
-
-	go func() {
-        close(done)
-    }()
+	fetchAll()
 }
 
-func fetchAll(num int) {
+func fetchAll() {
 	start := time.Now()
 	ch := make(chan string)
 	done := make(chan struct{})
 	for _, url := range os.Args[1:] {
-		go fetch(url, ch)
+		go fetch(url, ch, done)
 	}
-	filename := fmt.Sprintf("%dtimefetch.txt", num)
-	f, err := os.Create(filename)
-	if err != nil {
-		fmt.Println("create %s file failed.", filename)
+	go func() {
+		os.Stdin.Read(make([]byte, 1))
+		close(done)
+	}()
+	for index := range os.Args[1:] {
+		select {
+		case <-done:
+			fmt.Printf("request%d cancled!\n", index)
+			continue
+		case <-ch:
+			fmt.Println(<-ch)
+		}
 	}
-	defer f.Close()
-	for range os.Args[1:] {
-		f.WriteString(<-ch)
-		f.WriteString("\n")
-	}
-	str := fmt.Sprintf("%.2fs elapsed\n", time.Since(start).Seconds())
-	f.WriteString(str)
+	fmt.Sprintf("%.2fs elapsed\n", time.Since(start).Seconds())
 }
 
-func fetch(url string, ch chan<- string) {
+func fetch(url string, ch chan<- string, done <-chan struct{}) {
 	start := time.Now()
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Cancel = done
-	//resp, err := http.Get(url)
 	resp, err := http.DefaultClient.Do(req)
+	// client := &http.Client{Timeout: time.Duration(5) * time.Second}
+	// resp, err := client.Do(req)
+
 	if err != nil {
-		ch <- fmt.Sprint(err)
+		//ch <- fmt.Sprint(err)
 		return
 	}
 	nbytes, err := io.Copy(ioutil.Discard, resp.Body)
 	resp.Body.Close()
 	if err != nil {
-		ch <- fmt.Sprintf("while writing %s: %v\n", url, err)
+		//ch <- fmt.Sprintf("while writing %s: %v\n", url, err)
 		return
 	}
 	secs := time.Since(start).Seconds()
-	ch <- fmt.Sprintf("%.2fs  %7d  %s", secs, nbytes, url)
+	fmt.Sprintf("%.2fs  %7d  %s", secs, nbytes, url)
+	//ch <- fmt.Sprintf("%.2fs  %7d  %s", secs, nbytes, url)
 }
 
 /***
-go run fetchall.go http://www.yahoo.co.jp http://edition.cnn.com https://news.google.co.jp
+go run fetchall2.go http://www.yahoo.co.jp http://edition.cnn.com https://news.google.co.jp
 ***/

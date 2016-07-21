@@ -4,13 +4,13 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 	"strconv"
-	"./tempconv"
+	"strings"
+	"tempconv"
 )
 
 func main() {
-	
+
 	if len(os.Args[1:]) == 0 {
 		input := bufio.NewScanner(os.Stdin)
 		for input.Scan() {
@@ -24,7 +24,7 @@ func main() {
 			cf(arg)
 		}
 	}
-	
+
 }
 
 func cf(arg string) {
