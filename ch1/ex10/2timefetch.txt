@@ -1,4 +1,0 @@
-0.01s   110610  http://edition.cnn.com
-0.03s    19360  http://www.yahoo.co.jp
-0.72s   501827  https://news.google.co.jp
-0.72s elapsed

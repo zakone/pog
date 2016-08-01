@@ -1,0 +1,14 @@
+Topic: 継承の問題点.
+
+public class Point {
+
+    private final int x;
+    private final int y;
+
+    getX
+    getY
+}
+
+// funcを勝手にoverrideできるし、そういう設計はだめ
+// クラスも継承できるし、だめ
+// クラスPointを修正：public final class Point

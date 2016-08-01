@@ -36,6 +36,6 @@ func cf(arg string) {
 	f := tempconv.Foot(t)
 	m := tempconv.Metre(t)
 	y := tempconv.Yard(t)
-	fmt.Printf("%s = %s, %s = %s, %s = %s, %s = %s, %s = %s, %s = %s\n",
+	fmt.Printf("%s = %s\n, %s = %s\n, %s = %s\n, %s = %s\n, %s = %s\n, %s = %s\n",
 		f, tempconv.FToM(f), f, tempconv.FToY(f), m, tempconv.MToF(m), m, tempconv.MToY(m), y, tempconv.YToF(y), y, tempconv.YToM(y))
 }
