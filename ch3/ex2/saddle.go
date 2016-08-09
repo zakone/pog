@@ -5,11 +5,11 @@ import "os"
 import "fmt"
 
 const (
-	width, height = 600, 320
-	cells         = 100
-	xyrange       = 30.0
+	width, height = 800, 1000
+	cells         = 80
+	xyrange       = 9.0
 	xyscale       = width / 2 / xyrange
-	zscale        = height * 0.4
+	zscale        = height * 0.6
 	angle         = math.Pi / 6
 )
 
@@ -28,7 +28,6 @@ func main() {
 			if aok && bok && cok && dok {
 				fmt.Fprintf(os.Stdout, "<polygon points='%g,%g %g,%g %g,%g %g,%g'/>\n", ax, ay, bx, by, cx, cy, dx, dy)
 			}
-
 		}
 	}
 	fmt.Fprintf(os.Stdout, "</svg>")
@@ -48,5 +47,5 @@ func corner(i, j int) (float64, float64, bool) {
 }
 
 func f(x, y float64) float64 {
-	return x*x - y*y
+	return 0.02 * (x*x - y*y)
 }
