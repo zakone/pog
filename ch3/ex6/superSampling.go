@@ -1,9 +1,9 @@
 package main
 
 import (
-    "github.com/nfnt/resize"
     "fmt"
     "image"
+    "image/color"
     "image/png"
     "os"
 )
@@ -45,8 +45,23 @@ func superSampling(img image.Image) image.Image {
             }
         }
     }
-    sampleImg := resize.Resize(uint(b.Dx()), uint(b.Dy()), scaledImg, resize.Lanczos3)
+    superImg := image.NewRGBA(image.Rect(0, 0, b.Dx(), b.Dy()))
+    for i := 0; i < b.Dx(); i++ {
+        for j := 0; j < b.Dy(); j++ {
+            k := complex(float64(i*2), float64(j*2))
+            var r, g, b, a uint8
+            for _, subP := range subPoints {
+                r1, g1, b1, a1 := scaledImg.At(int(real(k+subP)), int(imag(k+subP))).RGBA()
+                r += uint8(r1)
+                g += uint8(g1)
+                b += uint8(b1)
+                a += uint8(a1)
+            }
+            pAvg := color.RGBA{r / 4, g / 4, b / 4, a / 4}
+            superImg.SetRGBA(i, j, pAvg)
+        }
+    }
     //sampleImg := image.NewRGBA(image.Rect(0, 0, b.Dx(), b.Dy()))
     //draw.Draw(sampleImg, sampleImg.Bounds(), scaledImg, image.Point{0,0}, draw.Src)
-    return sampleImg
+    return superImg
 }
