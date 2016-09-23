@@ -5,7 +5,7 @@ import "os"
 import "fmt"
 
 const (
-	width, height = 800, 600
+	width, height = 600, 320
 	cells         = 100
 	xyrange       = 9.0
 	xyscale       = width / 2 / xyrange
