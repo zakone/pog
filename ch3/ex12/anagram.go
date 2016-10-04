@@ -1,9 +1,9 @@
-package main
+package anagram
 
 import "fmt"
 import "strings"
 
-func anagram(s1, s2 string) bool {
+func Anagram(s1, s2 string) bool {
 	s1 = removeSpace(s1)
 	s2 = removeSpace(s2)
 	if len(s1) != len(s2) {
@@ -37,16 +37,4 @@ func removeSubS(s, c string) string {
 		return s[:idx] + s[idx+1:]
 	}
 	return s
-}
-
-func main() {
-	s1 := "anagrams"
-	s2 := "ARS MAGNA"
-	fmt.Println(s1)
-	fmt.Println(s2)
-	if anagram(s1, s2) {
-		fmt.Println("anagram true")
-	} else {
-		fmt.Println("anagram false")
-	}
 }

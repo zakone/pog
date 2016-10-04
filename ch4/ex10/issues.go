@@ -43,3 +43,5 @@ func main() {
 		fmt.Print(val)
 	}
 }
+
+//誤差を修正！！

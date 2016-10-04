@@ -19,7 +19,9 @@ func comma(s string) string {
 	// 	}
 	// }
 	i := len(s) % 3
-	buf.WriteString(s[:i] + ",")
+	if i != 0 {
+		buf.WriteString(s[:i] + ",")
+	}
 	s = s[i:]
 	for j := 0; j < len(s); j++ {
 		buf.WriteByte(s[j])

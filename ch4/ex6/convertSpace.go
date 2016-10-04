@@ -5,7 +5,14 @@ import "unicode"
 import "bytes"
 
 func convertSpace(b []byte) []byte {
-	buf := bytes.NewBuffer(make([]byte, 0, len(b)))
+	for i, val := range string(b) {
+		if unicode.IsSpace(val) {
+			if i != 0 && b[i-1] {
+
+			}
+		}
+	}
+	//buf := bytes.NewBuffer(make([]byte, 0, len(b)))
 	if unicode.IsSpace(rune(b[0])) {
 		buf.WriteByte(' ')
 	} else {

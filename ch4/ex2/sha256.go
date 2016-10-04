@@ -7,17 +7,17 @@ import "os"
 
 func showSHA256(s []byte) {
     c := sha256.Sum256(s)
-    fmt.Printf("sha256 value: %x", c)
+    fmt.Printf("sha256 value: %x\n", c)
 }
 
 func showSHA384(s []byte) {
     c := sha512.Sum384(s)
-    fmt.Printf("sha384 value: %x", c)
+    fmt.Printf("sha384 value: %x\n", c)
 }
 
 func showSHA512(s []byte) {
     c := sha512.Sum512(s)
-    fmt.Printf("sha512 value: %x", c)
+    fmt.Printf("sha512 value: %x\n", c)
 }
 
 func main() {
@@ -32,3 +32,5 @@ func main() {
         showSHA256([]byte(params[0]))
     }
 }
+
+//use flag!!!

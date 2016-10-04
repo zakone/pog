@@ -1,6 +1,5 @@
-package main
+package commaDecimal
 
-import "fmt"
 import "strings"
 
 func comma(s string) string {
@@ -12,6 +11,9 @@ func comma(s string) string {
 }
 
 func commaDecimal(s string) string {
+    if len(s) < 3 {
+        return s
+    }
     sign := ""
     if s[0] == '-' {
         sign = "-"
@@ -25,10 +27,4 @@ func commaDecimal(s string) string {
         return sign + comma(s)
     }
 
-}
-
-func main() {
-    s := "-1263.56794"
-    fmt.Println("origin string: " + s)
-    fmt.Println("comma string: " + commaDecimal(s))
 }

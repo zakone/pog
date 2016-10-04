@@ -1,11 +1,12 @@
 package main
+
 import "fmt"
 
-func dup(strings []string) []string{
-	for i:= 0; i < len(strings)-1; {
+func dup(strings []string) []string {
+	for i := 0; i < len(strings)-1; {
 		if strings[i] == strings[i+1] {
 			strings = remove(strings, i)
-		} else{
+		} else {
 			i++
 		}
 	}
@@ -17,8 +18,8 @@ func remove(slice []string, i int) []string {
 	return slice[:len(slice)-1]
 }
 
-
 func main() {
 	s := []string{"aa", "aa", "bbb", "c", "ddddd", "ddddd"}
-	fmt.Println(dup(s))
+	dup(s)
+	fmt.Println(s)
 }

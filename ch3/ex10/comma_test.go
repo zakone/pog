@@ -16,7 +16,7 @@ func TestComma(t *testing.T) {
 	}
 	for _, test := range tests {
 		if got := comma(test.digits); got != test.expected {
-			t.Errorf("IsWrongComma")
+			t.Errorf("%s IsWrongComma", got)
 		}
 	}
 }
