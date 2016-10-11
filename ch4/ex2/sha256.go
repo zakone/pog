@@ -4,6 +4,7 @@ import "crypto/sha256"
 import "crypto/sha512"
 import "fmt"
 import "os"
+import "flag"
 
 func showSHA256(s []byte) {
     c := sha256.Sum256(s)
