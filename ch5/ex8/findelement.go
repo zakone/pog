@@ -1,4 +1,4 @@
-//go run outline2.go http://gopl.io > out.html
+//go run findelement.go https://golang.org a
 
 package main
 
@@ -22,43 +22,47 @@ func main() {
     }
     n := ElementByID(doc, os.Args[2])
     fmt.Println(os.Args[2])
-    fmt.Println(n)
+    fmt.Println(n.Data)
 }
 
 func ElementByID(doc *html.Node, id string) *html.Node {
-    forEachNode(doc, id, startElement, endElement)
-    fmt.Println(doc.Data)
-    return doc
+    var target *html.Node
+    target = doc
+    forEachNode(doc, id, target, startElement, endElement)
+    fmt.Println(target.Data)
+    return target
 }
 
-func forEachNode(n *html.Node, id string, pre, post func(n *html.Node, id string) bool) {
+func forEachNode(n *html.Node, id string, target *html.Node, pre, post func(n *html.Node, target *html.Node, id string) bool) {
     if pre != nil {
-        if pre(n, id) {
+        if pre(n, target, id) {
             return
         }
     }
 
     for c := n.FirstChild; c != nil; c = c.NextSibling {
-        forEachNode(c, id, pre, post)
+        forEachNode(c, id, target, pre, post)
     }
 
     if post != nil {
-        if post(n, id) {
+        if post(n, target, id) {
             return
         }
     }
 }
 
-func startElement(n *html.Node, id string) bool {
+func startElement(n *html.Node, target *html.Node, id string) bool {
     if n.Type == html.ElementNode && n.Data == id {
+        target = n
         return true
     } else {
         return false
     }
 }
 
-func endElement(n *html.Node, id string) bool {
+func endElement(n *html.Node, target *html.Node, id string) bool {
     if n.Type == html.ElementNode && fmt.Sprintf("/%s", n.Data) == id {
+        target = n
         return true
     } else {
         return false

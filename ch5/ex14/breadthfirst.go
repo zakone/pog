@@ -39,17 +39,18 @@ func breadthFirst(f func(item string, checked map[string]bool) []string, worklis
     }
 }
 
-func topoSort(key string, checked map[string]bool) []string {
+func topoSort(key string, seen map[string]bool) []string {
     var visitAll func(key string)
     visitAll = func(key string) {
-        if !checked[key] {
-            checked[key] = true
-            for _, item := range prereqs[key] {
+        for _, item := range prereqs[key] {
+            if !seen[item] {
+                seen[item] = true
                 visitAll(item)
+                fmt.Println(item)
             }
-            fmt.Println(key)
         }
+        fmt.Println(key)
     }
     visitAll(key)
-    return prereqs[key]
+    return nil
 }
