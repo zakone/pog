@@ -1,4 +1,4 @@
-package main
+package maxmin
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ import (
 // 	return largest
 // }
 
-func maxOne(vals ...int) (int, bool) {
+func MaxOne(vals ...int) (int, bool) {
 	if len(vals) == 0 {
 		fmt.Println("Error! Must input one number")
 		return 0, false
@@ -38,7 +38,7 @@ func maxOne(vals ...int) (int, bool) {
 // 	return largest
 // }
 
-func minOne(vals ...int) (int, bool) {
+func MinOne(vals ...int) (int, bool) {
 	if len(vals) == 0 {
 		fmt.Println("Error! Must input one number")
 		return 0, false
@@ -46,7 +46,7 @@ func minOne(vals ...int) (int, bool) {
 	minest := vals[0]
 	for _, v := range vals {
 		if v < minest {
-			largest = v
+			minest = v
 		}
 	}
 	return minest, true
