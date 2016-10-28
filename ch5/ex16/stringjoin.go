@@ -1,16 +1,12 @@
-package main
+package stringjoin
 
-import (
-	"fmt"
-)
-
-func main() {
-	fmt.Println(join("a", "b", "c"))
-}
-func join(vals ...string) string {
+func Join(sep string, vals ...string) string {
 	res := ""
-	for _, val := range vals {
-		res = res + val
+	if len(vals) == 0 {
+		return res
 	}
-	return res
+	for _, val := range vals {
+		res = res + val + sep
+	}
+	return res[:len(res)-1]
 }
