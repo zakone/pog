@@ -1,4 +1,4 @@
-//go run findelement.go https://golang.org a
+//go run findelement.go https://golang.org lowframe
 
 package main
 
@@ -21,50 +21,58 @@ func main() {
         return
     }
     n := ElementByID(doc, os.Args[2])
-    fmt.Println(os.Args[2])
-    fmt.Println(n.Data)
+    fmt.Println(n)
 }
 
 func ElementByID(doc *html.Node, id string) *html.Node {
     var target *html.Node
-    target = doc
-    forEachNode(doc, id, target, startElement, endElement)
-    fmt.Println(target.Data)
+    search := func(n *html.Node) bool {
+        if n.Type == html.ElementNode {
+            for _, a := range n.Attr {
+                if a.Key == "id" && a.Val == id {
+                    target = n
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    forEachNode(doc, search, nil)
+    fmt.Println(target)
     return target
 }
 
-func forEachNode(n *html.Node, id string, target *html.Node, pre, post func(n *html.Node, target *html.Node, id string) bool) {
+func forEachNode(n *html.Node, pre, post func(n *html.Node) bool) {
     if pre != nil {
-        if pre(n, target, id) {
+        if !pre(n) {
             return
         }
     }
 
     for c := n.FirstChild; c != nil; c = c.NextSibling {
-        forEachNode(c, id, target, pre, post)
+        forEachNode(c, pre, post)
     }
 
     if post != nil {
-        if post(n, target, id) {
+        if !post(n) {
             return
         }
     }
 }
 
-func startElement(n *html.Node, target *html.Node, id string) bool {
-    if n.Type == html.ElementNode && n.Data == id {
-        target = n
-        return true
-    } else {
-        return false
-    }
-}
+// func startElement(n *html.Node) bool {
+//     if n.Type == html.ElementNode && n.Data == id {
+//         return true
+//     } else {
+//         return false
+//     }
+// }
 
-func endElement(n *html.Node, target *html.Node, id string) bool {
-    if n.Type == html.ElementNode && fmt.Sprintf("/%s", n.Data) == id {
-        target = n
-        return true
-    } else {
-        return false
-    }
-}
+// func endElement(n *html.Node) bool {
+//     if n.Type == html.ElementNode && fmt.Sprintf("/%s", n.Data) == id {
+//         target = n
+//         return true
+//     } else {
+//         return false
+//     }
+// }
