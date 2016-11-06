@@ -3,32 +3,36 @@ package main
 import "fmt"
 import "bytes"
 
+const flag = 32 << (^uint(0) >> 63)
+
 type IntSet struct {
-    words []uint64
+    words []flag
 }
 
 func main() {
     var x IntSet
     x.Add(1)
-    x.Add(2)
     x.Add(3)
+    x.Add(100)
+    x.Add(300)
     fmt.Println(x.String())
-    var y IntSet
-    y.Add(2)
-    y.Add(3)
-    x.IntersectWith(&y)
-    fmt.Println(x.String())
-    var z IntSet
-    x.Add(200)
-    x.Add(400)
-    z.Add(1)
-    z.Add(3)
-    z.Add(100)
-    x.SymmetricDifference(&z)
-    fmt.Println(x.String())
+
+    elems := x.Elems()
+    fmt.Println(elems)
 
 }
 
+func (s *IntSet) Elems() []int {
+    var elems []int
+    for i, tword := range s.words {
+        for j := 0; j < flag; j++ {
+            if tword&(1<<uint(j)) != 0 {
+                elems = append(elems, flag*i+j)
+            }
+        }
+    }
+    return elems
+}
 func (s *IntSet) IntersectWith(t *IntSet) {
     for i, tword := range t.words {
         if i < len(s.words) {
@@ -65,13 +69,13 @@ func (s *IntSet) Len() int {
 
 func (s *IntSet) Remove(x int) {
     if s.Has(x) {
-        word, bit := x/64, uint(x%64)
+        word, bit := x/flag, uint(x%flag)
         s.words[word] ^= 1 << bit
     }
 }
 
 func (s *IntSet) Clear() {
-    s.words = []uint64{}
+    s.words = []flag{}
 }
 
 func (s *IntSet) Copy() *IntSet {
@@ -80,7 +84,7 @@ func (s *IntSet) Copy() *IntSet {
     return &y
 }
 
-func popCountLastClear(x uint64) int {
+func popCountLastClear(x flag) int {
     var tmp byte
     for x != 0 {
         x = x & (x - 1)
@@ -100,12 +104,12 @@ func (s *IntSet) UnionWith(t *IntSet) {
 }
 
 func (s *IntSet) Has(x int) bool {
-    word, bit := x/64, uint(x%64)
+    word, bit := x/flag, uint(x%flag)
     return word < len(s.words) && s.words[word]&(1<<bit) != 0
 }
 
 func (s *IntSet) Add(x int) {
-    word, bit := x/64, uint(x%64)
+    word, bit := x/flag, uint(x%flag)
     for word >= len(s.words) {
         s.words = append(s.words, 0)
     }
@@ -119,12 +123,12 @@ func (s *IntSet) String() string {
         if word == 0 {
             continue
         }
-        for j := 0; j < 64; j++ {
+        for j := 0; j < flag; j++ {
             if word&(1<<uint(j)) != 0 {
                 if buf.Len() > len("{") {
                     buf.WriteByte(' ')
                 }
-                fmt.Fprintf(&buf, "%d", 64*i+j)
+                fmt.Fprintf(&buf, "%d", flag*i+j)
             }
         }
     }
