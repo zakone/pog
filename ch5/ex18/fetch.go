@@ -33,10 +33,13 @@ func fetch(url string) (filename string, n int64, err error) {
 	if err != nil {
 		return "", 0, err
 	}
-	defer f.Close()
+	defer func() {
+		//defer func use for printing return result
+		if closeErr := f.Close(); err == nil {
+			err = closeErr
+		}
+	}()
 	n, errs := io.Copy(f, resp.Body)
-	if errs != nil {
-		return "", 0, errs
-	}
+
 	return local, n, errs
 }

@@ -27,7 +27,7 @@ func main() {
             fmt.Printf("%d:\t%s\n", i+1, course)
         }
     } else {
-        for i, err := range errors {
+        for _, err := range errors {
             fmt.Println(err)
         }
     }
