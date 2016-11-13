@@ -1,4 +1,4 @@
-package main
+package intset
 
 import "fmt"
 import "bytes"
@@ -6,20 +6,7 @@ import "bytes"
 const flag = 32 << (^uint(0) >> 63)
 
 type IntSet struct {
-    words []flag
-}
-
-func main() {
-    var x IntSet
-    x.Add(1)
-    x.Add(3)
-    x.Add(100)
-    x.Add(300)
-    fmt.Println(x.String())
-
-    elems := x.Elems()
-    fmt.Println(elems)
-
+    words []int
 }
 
 func (s *IntSet) Elems() []int {
@@ -33,6 +20,7 @@ func (s *IntSet) Elems() []int {
     }
     return elems
 }
+
 func (s *IntSet) IntersectWith(t *IntSet) {
     for i, tword := range t.words {
         if i < len(s.words) {
@@ -75,7 +63,7 @@ func (s *IntSet) Remove(x int) {
 }
 
 func (s *IntSet) Clear() {
-    s.words = []flag{}
+    s.words = []int{}
 }
 
 func (s *IntSet) Copy() *IntSet {
@@ -84,7 +72,7 @@ func (s *IntSet) Copy() *IntSet {
     return &y
 }
 
-func popCountLastClear(x flag) int {
+func popCountLastClear(x int) int {
     var tmp byte
     for x != 0 {
         x = x & (x - 1)

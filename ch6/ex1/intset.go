@@ -1,4 +1,4 @@
-package main
+package intset
 
 import "fmt"
 import "bytes"
@@ -7,19 +7,19 @@ type IntSet struct {
 	words []uint64
 }
 
-func main() {
-	var x IntSet
-	x.Add(1)
-	x.Add(3)
-	fmt.Println(x.String())
-	y := x.Copy()
-	fmt.Println(y.String())
-	fmt.Println(x.Len())
-	x.Remove(1)
-	fmt.Println(x.String())
-	x.Clear()
-	fmt.Println(x.Len())
-}
+// func main() {
+// 	var x IntSet
+// 	x.Add(1)
+// 	x.Add(3)
+// 	fmt.Println(x.String())
+// 	y := x.Copy()
+// 	fmt.Println(y.String())
+// 	fmt.Println(x.Len())
+// 	x.Remove(1)
+// 	fmt.Println(x.String())
+// 	x.Clear()
+// 	fmt.Println(x.Len())
+// }
 
 func (s *IntSet) Len() int {
 	leng := 0

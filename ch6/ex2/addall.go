@@ -1,4 +1,4 @@
-package main
+package intset
 
 import "fmt"
 import "bytes"
@@ -7,11 +7,11 @@ type IntSet struct {
     words []uint64
 }
 
-func main() {
-    var x IntSet
-    x.AddAll(1, 2, 3)
-    fmt.Println(x.String())
-}
+// func main() {
+//     var x IntSet
+//     x.AddAll(1, 2, 3)
+//     fmt.Println(x.String())
+// }
 
 func (s *IntSet) AddAll(vals ...int) {
     for _, val := range vals {

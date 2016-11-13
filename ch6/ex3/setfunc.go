@@ -1,4 +1,4 @@
-package main
+package intset
 
 import "fmt"
 import "bytes"
@@ -7,27 +7,27 @@ type IntSet struct {
     words []uint64
 }
 
-func main() {
-    var x IntSet
-    x.Add(1)
-    x.Add(2)
-    x.Add(3)
-    fmt.Println(x.String())
-    var y IntSet
-    y.Add(2)
-    y.Add(3)
-    x.IntersectWith(&y)
-    fmt.Println(x.String())
-    var z IntSet
-    x.Add(200)
-    x.Add(400)
-    z.Add(1)
-    z.Add(3)
-    z.Add(100)
-    x.SymmetricDifference(&z)
-    fmt.Println(x.String())
+// func main() {
+//     var x IntSet
+//     x.Add(1)
+//     x.Add(2)
+//     x.Add(3)
+//     fmt.Println(x.String())
+//     var y IntSet
+//     y.Add(2)
+//     y.Add(3)
+//     x.IntersectWith(&y)
+//     fmt.Println(x.String())
+//     var z IntSet
+//     x.Add(200)
+//     x.Add(400)
+//     z.Add(1)
+//     z.Add(3)
+//     z.Add(100)
+//     x.SymmetricDifference(&z)
+//     fmt.Println(x.String())
 
-}
+// }
 
 func (s *IntSet) IntersectWith(t *IntSet) {
     for i, tword := range t.words {
