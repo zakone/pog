@@ -1,10 +1,7 @@
-package main
+package limitreader
 
 import (
     "io"
-    "log"
-    "os"
-    "strings"
 )
 
 type LimitedReader struct {
@@ -22,15 +19,5 @@ func (h *LimitedReader) Read(b []byte) (n int, err error) {
 
 func LimitReader(r io.Reader, n int64) io.Reader {
     return &LimitedReader{n, r}
-
-}
-
-func main() {
-    r := strings.NewReader("hello world\n")
-    lr := io.LimitReader(r, 4)
-
-    if _, err := io.Copy(os.Stdout, lr); err != nil {
-        log.Fatal(err)
-    }
 
 }
