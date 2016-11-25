@@ -133,45 +133,35 @@ func (c call) Check(vars map[Var]bool) error {
 }
 
 func (v Var) String() string {
-    var buf *bytes.Buffer
+    buf := new(bytes.Buffer)
     fmt.Fprintf(buf, "%s", v)
     return buf.String()
+    // return fmt.Sprintf("%v", v)
 }
 
 func (l literal) String() string {
-    var buf *bytes.Buffer
-    fmt.Fprintf(buf, "%s", l)
-    return buf.String()
+    return fmt.Sprintf("%f", l)
 }
 
 func (u unary) String() string {
-    var buf *bytes.Buffer
-    fmt.Fprintf(buf, "(%c", u.op)
-    write(buf, u.x)
-    buf.WriteByte(')')
-    return buf.String()
+    return fmt.Sprintf("(%s%s)", u.op, u.x.String())
 }
 
 func (b binary) String() string {
-    var buf *bytes.Buffer
-    buf.WriteByte('(')
-    write(buf, b.x)
-    fmt.Fprintf(buf, " %c ", b.op)
-    write(buf, b.y)
-    buf.WriteByte(')')
-    return buf.String()
+    return fmt.Sprintf("(%s %s %s)", b.x.String(), b.op, b.y.String())
 }
 
 func (c call) String() string {
-    var buf *bytes.Buffer
-    fmt.Fprintf(buf, "%s( ", c.fn)
+    // return fmt.Sprintf("%s(%s, %s)", c.fn, c.args[0].String(), c.args[1].String())
+    buf := new(bytes.Buffer)
+    fmt.Fprintf(buf, "%s(", c.fn)
     for i, arg := range c.args {
         if i > 0 {
             buf.WriteString(", ")
         }
-        write(buf, arg)
+        buf.WriteString(arg.String())
     }
-    buf.WriteString(" )")
+    buf.WriteByte(')')
     return buf.String()
 }
 

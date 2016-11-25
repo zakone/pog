@@ -16,7 +16,7 @@ func TestEval(t *testing.T) {
         env  Env
         want string
     }{
-        {"sqrt(A/pi)", Env{"A": 87616, "pi": math.Pi}, "167"},
+        {"sqrt(A / pi)", Env{"A": 87616, "pi": math.Pi}, "167"},
         {"pow(x,3)+pow(y,3)", Env{"x": 12, "y": 1}, "1729"},
         {"pow(x,3)+pow(y,3)", Env{"x": 9, "y": 10}, "1729"},
         {"5/9*(F-32)", Env{"F": -40}, "-40"},
@@ -33,7 +33,8 @@ func TestEval(t *testing.T) {
             t.Error(err) // parse error
             continue
         }
-        // fmt.Println(expr)
+
+        fmt.Println(expr)
         // s := fmt.Sprintf("%s", expr)
         // exprUpdated, err := Parse(s)
         if err != nil {
