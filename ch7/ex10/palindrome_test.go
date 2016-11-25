@@ -1,12 +1,11 @@
 package palindrome
 
 import "testing"
-import "sort"
 
 type Palindrome struct {
-	sort.Interface
 	data []byte
 }
+
 func (x Palindrome) Len() int           { return len(x.data) }
 func (x Palindrome) Less(i, j int) bool { return x.data[i] < x.data[j] }
 func (x Palindrome) Swap(i, j int)      { x.data[i], x.data[j] = x.data[j], x.data[i] }

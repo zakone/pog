@@ -13,10 +13,10 @@ import (
 const templ = `<h1>{{.TotalCount}} issues:</h1>
 <table>
 <tr style='text-align: left'>
- <th>#</th>
+ <th><a href="http://localhost:8000/?repo=golang/go&sort=number">#</a></th>
  <th>State</th>
- <th>User</th>
- <th>Title</th>
+ <th><a href="localhost:8000/?repo=golang/go&sort=user">User</a></th>
+ <th><a href="localhost:8000/?repo=golang/go&sort=title">Title</a></th>
 </tr>
 {{range .Items}}
 <tr>
@@ -58,22 +58,3 @@ func issueReport(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 }
-
-
-// const templ = `<h1>{{.TotalCount}} issues:</h1>
-// <table>
-// <tr style='text-align: left'>
-//  <th><a href="http://localhost:8000/?repo=golang/go&sort=number">#</a></th>
-//  <th>State</th>
-//  <th><a href="localhost:8000/?repo=golang/go&sort=user">User</a></th>
-//  <th><a href="localhost:8000/?repo=golang/go&sort=title">Title</a></th>
-// </tr>
-// {{range .Items}}
-// <tr>
-//     <td><a href='{{.HTMLURL}}'>{{.Number}}</a></td>
-//     <td>{{.State}}</td>
-//     <td><a href="{{.User.HTMLURL}}">{{.User.Login}}</a></td>
-//     <td><a href="{{.HTMLURL}}">{{.Title}}</a></td>
-// </tr>
-// {{end}}
-// </table>`
