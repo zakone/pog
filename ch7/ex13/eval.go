@@ -133,26 +133,23 @@ func (c call) Check(vars map[Var]bool) error {
 }
 
 func (v Var) String() string {
-    buf := new(bytes.Buffer)
-    fmt.Fprintf(buf, "%s", v)
-    return buf.String()
+    return string(v)
     // return fmt.Sprintf("%v", v)
 }
 
 func (l literal) String() string {
-    return fmt.Sprintf("%f", l)
+    return fmt.Sprintf("%g", l)
 }
 
 func (u unary) String() string {
-    return fmt.Sprintf("(%s%s)", u.op, u.x.String())
+    return fmt.Sprintf("(%c%s)", u.op, u.x.String())
 }
 
 func (b binary) String() string {
-    return fmt.Sprintf("(%s %s %s)", b.x.String(), b.op, b.y.String())
+    return fmt.Sprintf("(%s %c %s)", b.x.String(), b.op, b.y.String())
 }
 
 func (c call) String() string {
-    // return fmt.Sprintf("%s(%s, %s)", c.fn, c.args[0].String(), c.args[1].String())
     buf := new(bytes.Buffer)
     fmt.Fprintf(buf, "%s(", c.fn)
     for i, arg := range c.args {
