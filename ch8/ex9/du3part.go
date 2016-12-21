@@ -12,7 +12,7 @@ import (
 
 var vFlag = flag.Bool("v", false, "show verbose progress messages")
 
-type IndexSizes struct {
+type IndexSize struct {
     idx  int
     size int64
 }
@@ -32,15 +32,11 @@ func main() {
 
     //!+
     // Traverse each root of the file tree in parallel.
-
-    fileSizes := make(chan *IndexSizes)
+    fileSizes := make(chan IndexSize)
     var n sync.WaitGroup
     for i, root := range roots {
         n.Add(1)
-        var rs IndexSizes
-        rs.idx = i
-        rs.size = 0
-        go walkDir(root, &n, fileSizes, &rs)
+        go walkDir(root, &n, fileSizes, i)
     }
     go func() {
         n.Wait()
@@ -53,26 +49,26 @@ func main() {
     if *vFlag {
         tick = time.Tick(500 * time.Millisecond)
     }
-
     nfiles := make([]int64, len(roots))
     nbytes := make([]int64, len(roots))
 
 loop:
     for {
         select {
-        case indexsize, ok := <-fileSizes:
+        case res, ok := <-fileSizes:
             if !ok {
                 break loop // fileSizes was closed
             }
-            nfiles[indexsize.idx]++
-            nbytes[indexsize.idx] += indexsize.size
+            nfiles[res.idx]++
+            nbytes[res.idx] += res.size
         case <-tick:
             printDiskUsage(nfiles, nbytes, roots)
         }
     }
 
     printDiskUsage(nfiles, nbytes, roots) // final totals
-
+    //!+
+    // ...select loop...
 }
 
 //!-
@@ -87,16 +83,15 @@ func printDiskUsage(nfiles, nbytes []int64, roots []string) {
 // walkDir recursively walks the file tree rooted at dir
 // and sends the size of each found file on fileSizes.
 //!+walkDir
-func walkDir(dir string, n *sync.WaitGroup, fileSizes chan<- *IndexSizes, rs *IndexSizes) {
+func walkDir(dir string, n *sync.WaitGroup, fileSizes chan<- IndexSize, idx int) {
     defer n.Done()
     for _, entry := range dirents(dir) {
         if entry.IsDir() {
             n.Add(1)
             subdir := filepath.Join(dir, entry.Name())
-            go walkDir(subdir, n, fileSizes, rs)
+            go walkDir(subdir, n, fileSizes, idx)
         } else {
-            rs.size += entry.Size()
-            fileSizes <- rs
+            fileSizes <- IndexSize{idx, entry.Size()}
         }
     }
 }
@@ -121,3 +116,5 @@ func dirents(dir string) []os.FileInfo {
     }
     return entries
 }
+
+//go run du3part.go ~/golang ~/Downloads
