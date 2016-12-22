@@ -1,19 +1,17 @@
-// ./crawdeep -depth=3 https://golang.org
 package main
 
 import (
-	"fmt"
-	"log"
-	"flag"
-	"net/http"
-	"net/url"
-	"io/ioutil"
-	"golang.org/x/net/html"
-	"os"
 	"./links"
 	"./title"
+	// "flag"
+	"fmt"
+	"golang.org/x/net/html"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"net/url"
+	"os"
 )
-
 
 var tokens = make(chan struct{}, 20)
 
@@ -69,20 +67,20 @@ func crawl(link, host string) []string {
 }
 
 // var depth = flag.Int("depth", 3, "crawl depth")
-var crawlUrl = flag.String("url", "https://golang.org", "crawl url")
+// var crawlUrl = flag.String("url", "https://golang.org", "crawl url")
 //!+
 func main() {
-	flag.Parse()
-	urls := []string{*crawlUrl}
-	u, err := url.Parse(*crawlUrl)
+	// flag.Parse()
+	// urls := []string{*crawlUrl}
+	u, err := url.Parse(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
 	}
 	worklist := make(chan []string)
-	
+
 	var n int
 	n++
-	go func() { worklist <- urls }()
+	go func() { worklist <- os.Args[1:] }()
 
 	// Crawl the web concurrently.
 	seen := make(map[string]bool)
