@@ -3,7 +3,7 @@ package main
 import (
 	"./links"
 	"./title"
-	// "flag"
+	"flag"
 	"fmt"
 	"golang.org/x/net/html"
 	"io/ioutil"
@@ -11,11 +11,13 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"sync"
 )
 
 var tokens = make(chan struct{}, 20)
 
-func crawl(link, host string) []string {
+func crawl(link, host string, wg *sync.WaitGroup) []string {
+
 	tokens <- struct{}{} // acquire a token
 	list, err := links.Extract(link)
 	<-tokens // release the token
@@ -66,36 +68,34 @@ func crawl(link, host string) []string {
 	return list
 }
 
-// var depth = flag.Int("depth", 3, "crawl depth")
-// var crawlUrl = flag.String("url", "https://golang.org", "crawl url")
+var depth = flag.Int("depth", 3, "crawl depth")
+
 //!+
 func main() {
-	// flag.Parse()
-	// urls := []string{*crawlUrl}
-	u, err := url.Parse(os.Args[1])
-	if err != nil {
-		log.Fatal(err)
-	}
+	flag.Parse()
+	urls := flag.Args()
 	worklist := make(chan []string)
+	url, _ := url.Parse(urls[0])
 
-	var n int
-	n++
-	go func() { worklist <- os.Args[1:] }()
+	go func() { worklist <- urls }()
 
 	// Crawl the web concurrently.
 	seen := make(map[string]bool)
-	for ; n > 0; n-- {
+	var wg sync.WaitGroup
+	for d := 0; d < *depth; d++ {
 		list := <-worklist
+		fmt.Printf("Crawl in Depth %d\n", d)
 		for _, link := range list {
+			wg.Add(1)
 			if !seen[link] {
 				seen[link] = true
-				go func(link, host string) {
-					n++
-					worklist <- crawl(link, host)
-				}(link, u.Host)
+				go func(link, u string, wg *sync.WaitGroup) {
+					worklist <- crawl(link, u, wg)
+				}(link, url.Host, &wg)
 			}
 		}
 	}
+	wg.Wait()
 
 }
 

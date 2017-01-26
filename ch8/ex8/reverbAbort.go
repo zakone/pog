@@ -19,6 +19,13 @@ func echo(c *net.TCPConn, shout string, reset chan<- struct{}) {
     fmt.Fprintln(c, "\t", strings.ToLower(shout))
 }
 
+// select {
+// case <- Time.After(10* time.Second):
+//     close something
+// case <- reset:
+//     do nothing
+// }
+
 //!+
 func handleConn(c *net.TCPConn) {
     input := bufio.NewScanner(c)

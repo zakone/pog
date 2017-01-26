@@ -26,7 +26,7 @@ func main() {
 	out := make(chan int)
 
 	go start(in)
-	go squarer(out, in)
+	go pipeline(out, in)
 	end(out)
 }
 

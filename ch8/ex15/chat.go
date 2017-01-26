@@ -28,7 +28,10 @@ func broadcaster() {
             // Broadcast incoming message to all
             // clients' outgoing message channels.
             for cli := range clients {
-                cli <- msg
+                select {
+                case cli <- msg:
+                default:
+                }
             }
 
         case cn := <-entering:

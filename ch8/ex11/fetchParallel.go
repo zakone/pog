@@ -14,13 +14,11 @@ import (
 	"path"
 )
 
-
-
 func fetch(urls []string) (url, filename string, n int64, err error) {
-	
+
 	done := make(chan struct{})
 
-	parallelRequest := func (url string) *http.Response {
+	parallelRequest := func(url string) *http.Response {
 
 		req, err := http.NewRequest("GET", url, nil)
 		if err != nil {
@@ -33,7 +31,7 @@ func fetch(urls []string) (url, filename string, n int64, err error) {
 		}
 		return resp
 	}
-	
+
 	// responses := make(chan *http.Response, len(urls))
 	responses := make(chan *http.Response, len(urls))
 	for _, u := range urls {
@@ -42,8 +40,8 @@ func fetch(urls []string) (url, filename string, n int64, err error) {
 		}(u)
 	}
 	// respUrl := <- responses
-	resp := <- responses
-
+	resp := <-responses
+	close(responses)
 	// close(done)
 	// loop:
 	// 	for {
@@ -80,11 +78,11 @@ func fetch(urls []string) (url, filename string, n int64, err error) {
 //!-
 
 func main() {
-	url, local, n ,err := fetch(os.Args[1:])
+	url, local, n, err := fetch(os.Args[1:])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "fetch %s: %v\n", url, err)
 		return
-	} 
+	}
 	// fmt.Printf("first response: %s \n", url)
 	fmt.Fprintf(os.Stderr, "%s => %s (%d bytes).\n", url, local, n)
 }
