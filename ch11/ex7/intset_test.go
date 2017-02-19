@@ -6,25 +6,24 @@ import (
     "time"
 )
 
-func BenchmarkIntSetAdd(b *testing.B) {
+var seed = time.Now().UTC().UnixNano()
 
+func BenchmarkIntSetAdd(b *testing.B) {
+    rng := rand.New(rand.NewSource(seed))
+    n := rng.Intn(10000)
     for i := 0; i < b.N; i++ {
         var x IntSet
-        seed := time.Now().UTC().UnixNano()
-        rng := rand.New(rand.NewSource(seed))
-        n := rng.Intn(10000)
         x.Add(n)
     }
 }
 
 func BenchmarkIntSetUnionWith(b *testing.B) {
+    rng := rand.New(rand.NewSource(seed))
+    m := rng.Intn(10000)
+    n := rng.Intn(10000)
     for i := 0; i < b.N; i++ {
         var x IntSet
         var y IntSet
-        seed := time.Now().UTC().UnixNano()
-        rng := rand.New(rand.NewSource(seed))
-        m := rng.Intn(10000)
-        n := rng.Intn(10000)
         x.Add(m)
         y.Add(n)
         x.UnionWith(&y)
@@ -32,23 +31,22 @@ func BenchmarkIntSetUnionWith(b *testing.B) {
 }
 
 func BenchmarkMapSetAdd(b *testing.B) {
+    rng := rand.New(rand.NewSource(seed))
+    n := rng.Intn(10000)
     for i := 0; i < b.N; i++ {
         var x IntSetMap
-        seed := time.Now().UTC().UnixNano()
-        rng := rand.New(rand.NewSource(seed))
-        n := rng.Intn(10000)
         x.Add(n)
     }
 }
 
 func BenchmarkMapSetUnionWith(b *testing.B) {
+    rng := rand.New(rand.NewSource(seed))
+    m := rng.Intn(10000)
+    n := rng.Intn(10000)
     for i := 0; i < b.N; i++ {
         var x IntSetMap
         var y IntSetMap
-        seed := time.Now().UTC().UnixNano()
-        rng := rand.New(rand.NewSource(seed))
-        m := rng.Intn(10000)
-        n := rng.Intn(10000)
+
         x.Add(m)
         y.Add(n)
         x.UnionWith(&y)

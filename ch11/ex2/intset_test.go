@@ -56,9 +56,10 @@ func TestHas(t *testing.T) {
     }
     for _, test := range tests {
         var x IntSetMap
-        x.words = make(map[uint64]bool)
-        x.words[uint64(test.para)] = true
-        if got := x.Has(test.para); got != test.expected {
+        var y IntSet
+        x.Add(test.para)
+        y.Add(test.para)
+        if y.Has(test.para) != x.Has(test.para) {
             t.Errorf("IntSetMap has %d, result false, expected true", test.para)
         }
     }

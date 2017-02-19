@@ -27,12 +27,12 @@ type Pack struct {
 
 func main() {
 	pack := os.Args[1]
-	out, _ := exec.Command("go", "list", "-f", "'{{join .Deps \" \"}}'", pack).Output()
+	out, _ := exec.Command("go", "list", "-f", "{{join .Deps \" \"}}", pack).Output()
 
 	var b bytes.Buffer
-	b.Write(out)
-	res := strings.Split(strings.Split(b.String(), "'")[1], " ")
+	b.Write(out[:len(out)-1])
 
+	res := strings.Split(b.String(), " ")
 	for _, s := range res {
 		output, err := exec.Command("go", "list", "-json", s).Output()
 		if err != nil {
