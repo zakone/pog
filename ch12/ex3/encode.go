@@ -7,29 +7,6 @@ import (
 	"strconv"
 )
 
-// func main() {
-// 	r1, _ := Marshal([]int{1,2,3,4,5})
-// 	fmt.Printf("%s\n", r1)
-// 	//(1 2 3 4 5)
-
-// 	r2, _ := Marshal(false)
-// 	fmt.Printf("%s\n", r2)
-// 	//nil
-
-// 	r3, _ := Marshal(true)
-// 	fmt.Printf("%s\n", r3)
-// 	//t
-
-// 	r4, _ := Marshal(complex(1, 2))
-// 	fmt.Printf("%s\n", r4)
-// 	//#C(1 2)
-
-// 	var i interface{} = 3
-// 	r5, _ := Marshal(i)
-// 	fmt.Printf("%s\n", r5)
-// 	//3
-// }
-
 //!+Marshal
 // Marshal encodes a Go value in S-expression form.
 func Marshal(v interface{}) ([]byte, error) {

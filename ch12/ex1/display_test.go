@@ -19,18 +19,18 @@ import (
 // which requires the // Output comment to be at the end
 // of the function.
 
-func testMapDisplay(t *testing.T) {
+func TestMapDisplay(t *testing.T) {
 	type S struct {
-		Age int
+		Age  int
 		Name string
 	}
-	
-	s1 := S {
-		Age: 10,
+
+	s1 := S{
+		Age:  10,
 		Name: "someone",
 	}
-	s2 := S {
-		Age: 100,
+	s2 := S{
+		Age:  100,
 		Name: "otherone",
 	}
 	m := map[S]string{s1: "first struct", s2: "second struct"}
@@ -44,8 +44,8 @@ func testMapDisplay(t *testing.T) {
 	// testMapStruct[main.S value].main.S.Age = 100
 	// testMapStruct[main.S value].main.S.Name = "otherone"
 
-	arr1 := [3]int{0,1,2}
-	arr2 := [3]int{3,4,5}
+	arr1 := [3]int{0, 1, 2}
+	arr2 := [3]int{3, 4, 5}
 	n := map[[3]int]string{arr1: "first array", arr2: "second array"}
 	Display("testMapArray", n)
 	// Output:

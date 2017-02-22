@@ -20,9 +20,9 @@ func TestBooleanTrueEncode(t *testing.T) {
 }
 
 func TestComplexEncode(t *testing.T) {
-	res, _ := Marshal(complex(1.0, 2.0))
-	if string(res) != "#C(1.0 2.0)" {
-		t.Errorf("marshal false boolean should be '#C(1.0 2.0)', but %s", res)
+	res, _ := Marshal(complex(1, 2))
+	if string(res) != "#C(1 2)" {
+		t.Errorf("marshal false boolean should be '#C(1 2)', but %s", res)
 	}
 }
 
