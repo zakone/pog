@@ -33,10 +33,10 @@ func TestDecode(t *testing.T) {
 		},
 	}
 
-	data, _ := Marshal(strangelove)
+	data, _ := Marshal(&strangelove)
 	r := bytes.NewReader(data)
 	var strangelove2 Movie
-	err := NewDecoder(r).Decode(strangelove2)
+	err := NewDecoder(r).Decode(&strangelove2)
 	if err != nil {
 		t.Errorf("Decode error happen: %t", err)
 	}
